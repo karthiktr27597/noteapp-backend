@@ -15,9 +15,17 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        forgetpassword: {
+            time: Date,
+            otp: String,
+        },
         activatedon: {
             type: Date,
             default: Date.now()
+        },
+        token: {
+            type: String,
+            required: true
         }
     }
 )

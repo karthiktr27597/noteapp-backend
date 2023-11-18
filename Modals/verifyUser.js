@@ -13,8 +13,12 @@ const verifyUserSchema = mongoose.Schema(
         password: {
             type: String,
             required: true
+        },
+        token: {
+            type: String,
+            required: true
         }
     }
 )
 
-export const verifyUser = mongoose.model("verifyUser", userSchema)
+export const verifyUser = mongoose.model("verifyUser", verifyUserSchema)

@@ -15,7 +15,7 @@ export function sendMail(toEmail, subject, content) {
             from: 'karthiktr27597@gmail.com',
             to: toEmail,
             subject: subject,
-            html: content 
+            html: content
         }
 
         transposter.sendMail(mailOptions, (err, info) => {

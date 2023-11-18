@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectToMongoDB } from "./db.js";
-import { userRouter } from "./Routes/user.js";
+import { signupRouter } from "./Routes/signup.js";
+import { loginRouter } from "./Routes/login.js";
+import { homeRouter } from "./Routes/home.js";
 
 
 // server initiation
@@ -23,7 +25,9 @@ connectToMongoDB()
 
 // application middleware
 
-app.use("/signup", userRouter)
+app.use("/signup", signupRouter)
+app.use("/login", loginRouter)
+app.use("/home", homeRouter)
 
 
 // test
