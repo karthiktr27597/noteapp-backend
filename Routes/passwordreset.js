@@ -1,8 +1,7 @@
 import express from "express"
-import dotenv from "dotenv"
 import { forgotPassword, passwordVerify } from "../Controllers/password.js"
 import { users } from "../Models/users.js"
-dotenv.config()
+
 
 
 const router = express.Router()
