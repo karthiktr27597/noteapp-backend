@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { redisConnection } from "../redis.js";
-import { users } from "../Modals/users.js";
+import { users } from "../Models/users.js";
 dotenv.config();
 
 

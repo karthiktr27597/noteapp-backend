@@ -5,6 +5,7 @@ import { connectToMongoDB } from "./db.js";
 import { signupRouter } from "./Routes/signup.js";
 import { loginRouter } from "./Routes/login.js";
 import { homeRouter } from "./Routes/home.js";
+import { passwordRouter } from "./Routes/passwordreset.js";
 
 
 // server initiation
@@ -24,10 +25,10 @@ connectToMongoDB()
 
 
 // application middleware
-
 app.use("/signup", signupRouter)
 app.use("/login", loginRouter)
 app.use("/home", homeRouter)
+app.use("/password", passwordRouter)
 
 
 // test

@@ -9,6 +9,7 @@ router.post("/verify", async (req, res) => {
         console.log(req.body);
 
         const registeredUser = await userVerify(email)
+        console.log(registeredUser)
 
         if (registeredUser === false) {
             await insertVerifyUser(fullname, email, password)
@@ -29,10 +30,10 @@ router.get("/activation/:token", async (req, res) => {
         console.log(req.params.token)
         const accountActivated = await accountActivation(req.params.token)
         console.log(accountActivated)
-        if (accountActivated) {
-            return res.redirect('http://lochalhost:3000/login?newuser=true')
+        if (accountActivated === true) {
+            return res.redirect("http://localhost:3000/login?newuser=true")
         }
-        return res.status(400).json({ message: "activation failed" })
+        return res.status(400).send(accountActivated)
     } catch (error) {
         return res.status(500).json({ message: "internal server error" })
     }

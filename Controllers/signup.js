@@ -1,6 +1,6 @@
-import { users } from "../Modals/users.js";
+import { users } from "../Models/users.js";
 import bcrypt from "bcrypt"
-import { verifyUser } from "../Modals/verifyUser.js";
+import { verifyUser } from "../Models/verifyUser.js";
 import { sendMail } from "./Services/mailservice.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -9,13 +9,14 @@ dotenv.config()
 
 export async function userVerify(email) {
     try {
-        const checkUser = await users.find({ email })
+        const checkUser = await users.findOne({ email })
         console.log('checkuser', checkUser)
         if (!checkUser) {
             return false
         }
         return true
     } catch (error) {
+        console.log(error)
         return 'Server Busy'
     }
 }
@@ -43,7 +44,7 @@ export async function insertVerifyUser(fullname, email, password) {
         <p>Thanks for signing up, Click below link to activate your account,</P
         <a href=${activationLink}>Click Here</a>
         <p>Regards</p>
-        <p>Team</p>`
+        <p>NoteApp Team</p>`
 
         await newUser.save()
         sendMail(email, subject, content)
@@ -56,6 +57,7 @@ export async function insertVerifyUser(fullname, email, password) {
 export async function accountActivation(token) {
     try {
         const verifiedUser = await verifyUser.findOne({ token })
+        console.log('verified', verifiedUser)
         if (verifiedUser) {
             const activatedUser = await new users(
                 {
@@ -66,9 +68,9 @@ export async function accountActivation(token) {
                 }
             )
             await activatedUser.save()
-            await verifiedUser.deleteOne({ token })
+            await verifyUser.deleteMany({ email: verifiedUser.email })
 
-            const loginlink = `http://lochalhost:3000/login`
+            const loginlink = "http://localhost:3000/login"
             const content = `<h3>Welcome ${verifiedUser.fullname},</h3>
             <h4>Your Account has been activated, Login to continue...</h4>
             <a href=${loginlink}>Login</a>
@@ -78,10 +80,14 @@ export async function accountActivation(token) {
             sendMail(verifiedUser.email, "NodeApp-SignUp Done Successfully", content)
             return true
         } else {
-            return `<h3>Sorry ${verifiedUser.fullname},</h3>
-            <h4>Account activation not successful, Please try again...</h4>
+            return `<html>
+            <body>
+            <h3>Sorry User,</h3>
+            <h4>Link expired or Account already activated, Please check and try again...</h4>
             <p>Regards</p>
-            <p>NoteApp Team</p>`
+            <p>NoteApp Team</p>
+            <body>
+            <html>`
         }
 
     } catch (error) {

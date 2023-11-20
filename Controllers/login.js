@@ -1,4 +1,4 @@
-import { users } from "../Modals/users.js";
+import { users } from "../Models/users.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv";
@@ -8,8 +8,9 @@ dotenv.config()
 
 export async function loginCheck(email, password) {
     try {
-
         const user = await users.findOne({ email })
+        console.log("user", user)
+
         if (!user) {
             return "user not found"
         }
